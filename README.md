@@ -1,4 +1,4 @@
-# Erythromycin-Resistance-Dynamics
+# Vibrio-Natriegens-Erythromycin-Resistance-Evolutionary-Dynamics
 **Background**
 - Antibiotic resistance is an escalating global concern. Understanding the rapid evolutionary responses of bacteria to antibiotic stress is critical for developing effective treatment strategies and minimizing resistance emergence.
 
