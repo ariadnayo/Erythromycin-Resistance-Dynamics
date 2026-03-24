@@ -1,0 +1,19 @@
+#Downloading raw OD dataset
+file_path_xlsx = '/content/Growth_final.xlsx'
+df = pd.read_excel(file_path_xlsx, sheet_name="Analysis")
+print(df.head())
+
+# Pivot the DataFrame for the heatmap
+df_pivot = df.pivot_table(index='Time(Minutes)', values=[col for col in df.columns if col != 'Time(Minutes)'])
+
+
+#Heatmap of OD values
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.figure(figsize=(12, 8))
+sns.heatmap(df_pivot, cmap="viridis", annot=False, fmt=".2f")
+plt.title('OD Heatmap Across Samples and Time')
+plt.xlabel('Sample')
+plt.ylabel('Time (Minutes)')
+plt.show()
