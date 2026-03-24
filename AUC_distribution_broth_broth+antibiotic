@@ -1,0 +1,32 @@
+import seaborn as sns
+
+# 1. Restructure the DataFrame
+broth_data = df[df["Sample"].isin(wt_samples + mut1_samples + mut2_samples)].copy()
+broth_data['Condition'] = 'Broth only'
+broth_data['Group'] = broth_data['Sample'].apply(lambda x: 'WT' if x in wt_samples else ('Mutant 1' if x in mut1_samples else 'Mutant 2'))
+
+antibiotic_data = df[df["Sample"].isin(wt_ab_samples + mut1_ab_samples + mut2_ab_samples)].copy()
+antibiotic_data['Condition'] = 'Broth + Antibiotic'
+antibiotic_data['Group'] = antibiotic_data['Sample'].apply(lambda x: 'WT' if x in wt_ab_samples else ('Mutant 1' if x in mut1_ab_samples else 'Mutant 2'))
+
+combined_df = pd.concat([broth_data, antibiotic_data])
+
+# 2. Use Seaborn to generate box plots
+
+# 3. Plot for "Broth only"
+plt.figure(figsize=(8, 6))
+sns.boxplot(x='Group', y='AUC', data=combined_df[combined_df['Condition'] == 'Broth only'], order=['WT', 'Mutant 1', 'Mutant 2'])
+plt.title("AUC Distribution in Broth only Condition")
+plt.xlabel("Group")
+plt.ylabel("AUC")
+plt.grid(axis='y')
+plt.show()
+
+# 4. Plot for "Broth + Antibiotic"
+plt.figure(figsize=(8, 6))
+sns.boxplot(x='Group', y='AUC', data=combined_df[combined_df['Condition'] == 'Broth + Antibiotic'], order=['WT', 'Mutant 1', 'Mutant 2'])
+plt.title("AUC Distribution in Broth + Antibiotic Condition")
+plt.xlabel("Group")
+plt.ylabel("AUC")
+plt.grid(axis='y')
+plt.show()
