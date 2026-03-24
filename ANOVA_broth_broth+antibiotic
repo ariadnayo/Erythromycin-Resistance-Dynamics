@@ -1,0 +1,42 @@
+import scipy.stats as stats
+import pandas as pd
+
+# Assuming df is already loaded with 'Sample' and 'AUC' columns
+
+# Define the groups
+wt_samples = ["1A", "2A", "3A"]
+mut1_samples = ["1B", "2B", "3B"]
+mut2_samples = ["1C", "2C", "3C"]
+
+wt_ab_samples = ["5A", "6A", "7A"]
+mut1_ab_samples = ["5B", "6B", "7B"]
+mut2_ab_samples = ["5C", "6C", "7C"]
+
+# Extract AUC values for each group in Broth only condition
+wt_broth_auc = df[df["Sample"].isin(wt_samples)]["AUC"].dropna()
+mut1_broth_auc = df[df["Sample"].isin(mut1_samples)]["AUC"].dropna()
+mut2_broth_auc = df[df["Sample"].isin(mut2_samples)]["AUC"].dropna()
+
+# Perform one-way ANOVA for Broth only
+print("--- ANOVA for Broth only condition ---")
+if len(wt_broth_auc) > 0 and len(mut1_broth_auc) > 0 and len(mut2_broth_auc) > 0:
+    f_statistic_broth, p_value_broth = stats.f_oneway(wt_broth_auc, mut1_broth_auc, mut2_broth_auc)
+    print(f"F-statistic: {f_statistic_broth:.4f}")
+    print(f"P-value: {p_value_broth:.4f}")
+else:
+    print("Insufficient data for ANOVA in Broth only condition.")
+
+print("\n--- ANOVA for Broth + Antibiotic condition ---")
+# Extract AUC values for each group in Broth + Antibiotic condition
+wt_ab_auc = df[df["Sample"].isin(wt_ab_samples)]["AUC"].dropna()
+mut1_ab_auc = df[df["Sample"].isin(mut1_ab_samples)]["AUC"].dropna()
+mut2_ab_auc = df[df["Sample"].isin(mut2_ab_samples)]["AUC"].dropna()
+
+
+# Perform one-way ANOVA for Broth + Antibiotic
+if len(wt_ab_auc) > 0 and len(mut1_ab_auc) > 0 and len(mut2_ab_auc) > 0:
+    f_statistic_ab, p_value_ab = stats.f_oneway(wt_ab_auc, mut1_ab_auc, mut2_ab_auc)
+    print(f"F-statistic: {f_statistic_ab:.4f}")
+    print(f"P-value: {p_value_ab:.4f}")
+else:
+     print("Insufficient data for ANOVA in Broth + Antibiotic condition.")
